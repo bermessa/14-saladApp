@@ -1,0 +1,94 @@
+<div class="container">
+
+    <div class="row" id="firstRow">
+        <h1>Plate of Perfection</h1>
+        <p>-A Salad Shoppe-</p>
+    </div>
+
+
+    <div class="row" id="about">
+        <div class="col-md-2"></div>
+        <div class="col-md-8">
+            <p>In this application, the user can build their own salad bar by submitting topping choices, then choose which toppings they want to devour on their own salad.</p>
+        </div>
+        <div class="col-md-2"></div>
+    </div>
+
+
+
+    <div class="row" id="secondRow">
+        <div class="col-md-4"></div>
+
+        <div class="col-md-4">
+
+            <form action="/" method="POST">
+                <div class="input-group">
+                    <input type="text" name="newTopping" class="form-control" placeholder="Add a topping choice...">
+                    <span class="input-group-btn">
+                    <button class="btn btn-default" type="submit" id="submitTopping">Go!</button>
+                    </span>
+                </div>
+            </form>
+
+        </div>
+
+        <div class="col-md-4"></div>
+    </div>
+
+
+    <div class="row" id="thirdRow">
+
+        <div class="col-md-2"></div>
+        <div class="col-md-4" id="left">
+
+            <p class="top">SALAD BAR</p>
+
+
+            <ul>
+                {{#each salad}} {{#unless devoured}}
+                <li>
+                    <p>
+                        {{this.topping}}
+                        <button data-saladid="{{this.id}}" class="btn btn-sm devourTopping">Devour!</button>
+                    </p>
+                </li>
+                {{/unless}} {{/each}}
+            </ul>
+
+        </div>
+        <div class="col-md-4" id="right">
+
+            <p class="top">SALAD PLATE</p>
+
+
+            <ul>
+                {{#each salad}} {{#if devoured}}
+                <li>
+                    <p>
+                        {{this.topping}}
+                    </p>
+                </li>
+                {{/if}} {{/each}}
+            </ul>
+
+
+        </div>
+        <div class="col-md-2"></div>
+    </div>
+</div>
+
+
+
+<script type="text/javascript">
+    $(".devourTopping").on("click", function() {
+        var id = $(this).data("saladid");
+
+        $.ajax("/" + id, {
+            type: "PUT",
+        }).then(
+            function() {
+                console.log("updated id ", id);
+                location.reload();
+            });
+    });
+</script>
